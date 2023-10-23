@@ -1,45 +1,44 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-# Model for Currency (e.g., Bitcoin, EURO, USD)
-class Currency(models.Model):
-    name = models.CharField(max_length=100)
-    symbol = models.CharField(max_length=10)  # Add symbol field for currency symbol
-    exchange_rate = models.DecimalField(max_digits=10, decimal_places=2)  # Add exchange rate
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-   
-    def __str__(self):
-        return self.name
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
 
-# Model for Payment History
-class PaymentHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    transaction_type = models.CharField(max_length=10, choices=[("buy", "Buy"), ("sell", "Sell")])
-    transaction_date = models.DateTimeField(auto_now_add=True)
+        return self.create_user(email, password, **extra_fields)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.currency.name} - {self.amount} ({self.transaction_type})"
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
-# Model for User Profile
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    valid_id_or_photo = models.ImageField(upload_to='user_ids/')  # Store user's ID or photo
+    # Add related_name to fix the clash
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='customuser_set',
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to.',
+    )
+    
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='customuser_set',
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.',
+    )
 
-# Model for Payment Gateway (You can customize this based on the payment service you integrate)
-class PaymentGateway(models.Model):
-    name = models.CharField(max_length=100)
-    # Add fields as needed (e.g., API keys, configurations)
+    objects = CustomUserManager()
 
-    def __str__(self):
-        return self.name
-
-# You can add more models for additional features as needed
-
-# Example of a model for a specific feature (e.g., Stock):
-# class Stock(models.Model):
-#     symbol = models.CharField(max_length=10)
-#     price = models.DecimalField(max_digits=10, decimal_places=2)
-#     # Add more fields as needed
-
+    USERNAME_FIELD = 'email'

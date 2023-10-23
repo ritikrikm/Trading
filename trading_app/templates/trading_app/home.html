@@ -13,6 +13,11 @@
         <div class="logo">
             <!-- Your logo or site name goes here -->
         </div>
+        <section class="hero">
+            <div class="container mt-5">
+                <h1>Welcome to Forex/Crypto Trading</h1>
+            </div>
+        </section>
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -24,19 +29,15 @@
                 <li><a href="#">Contact Us</a></li>
             </ul>
         </nav>
-        <div class="sign-in">
-            <button id="loginButton" class="btn btn-primary">Login</button>
+        <div class="sign-in d-flex justify-content-center">
+            <button id="loginButton" class="btn btn-primary mx-2">Login</button>
             {% include "login.html" %}
-            <button id="registerButton" class="btn btn-success">Register</button>
+            <button id="registerButton" class="btn btn-success mx-2">Register</button>
             {% include "registration_form.html" %}
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container mt-5">
-            <h1>Welcome to Forex/Crypto Trading</h1>
-        </div>
-    </section>
+    
 
     <!-- Other sections go here -->
 

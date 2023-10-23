@@ -1,10 +1,22 @@
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
 .popup {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;
+    padding: 50px; /* Increase the padding to make the popup larger */
     background-color: white;
     border: 1px solid #ccc;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -13,4 +25,12 @@
 
 .popup h2 {
     margin-bottom: 20px;
+}
+/* Add margin to the "Submit" button */
+#loginSubmit {
+    margin-top: 20px;
+}
+/* Add margin to the "Submit" button */
+#registerSubmit {
+    margin-top: 20px;
 }

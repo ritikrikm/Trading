@@ -29,7 +29,10 @@ SECRET_KEY = 'django-insecure-1%t2srwv)2q81ruv#lo@132cx0)x**p0+no8^rxc7yhs@47+@e
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'trading_app.CustomUser'  # Replace 'yourappname' with the name of your app
+# Set login and logout URLs
+LOGIN_URL = 'login'  # Replace 'login' with the actual URL or view name for your login page
+LOGOUT_URL = 'logout'  # Replace 'logout' with the actual URL or view name for your logout page
 
 # Application definition
 

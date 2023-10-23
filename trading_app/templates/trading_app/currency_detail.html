@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ currency.name }} Details</title>
+</head>
+<body>
+    <h1>{{ currency.name }} Details</h1>
+    <p>
+        Currency Name: {{ currency.name }}
+    </p>
+    <p>
+        Symbol: {{ currency.symbol }}
+    </p>
+    <p>
+        Exchange Rate: {{ currency.exchange_rate }}
+    </p>
+    <a href="{% url 'trading_app:currency-list' %}">Back to Currency List</a>
+</body>
+</html>

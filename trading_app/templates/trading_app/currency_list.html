@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency List</title>
+</head>
+<body>
+    <h1>Currency List</h1>
+    <ul>
+        {% for currency in currencies %}
+            <li>
+                <a href="{% url 'trading_app:currency-detail' currency.pk %}">{{ currency.name }}</a>
+                <br>
+                Symbol: {{ currency.symbol }}
+                <br>
+                Exchange Rate: {{ currency.exchange_rate }}
+            </li>
+        {% empty %}
+            <li>No currencies available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
